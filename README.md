@@ -1,7 +1,7 @@
-# trabalhos
+# Trabalhos
 Trabalhos para o dia 13/11
 
-Ruido de Sal e Pimenta 
+# Atividade de Ruido de Sal e Pimenta 
 
 import random
 import cv2
@@ -105,7 +105,7 @@ plt.show()
 ![image](https://github.com/user-attachments/assets/4f7d78d0-a8b1-4f49-a82b-7bd038747bd6)
 
 
-Projeto para Prova
+# Projeto para Prova
 Apliquei todos os filtros, ruídos e transformações diferentes em uma imagem que encontrei na internet antiga para ver qual seria a melhor para fazer a limpeza dela, o código foi o seguinte
 
 import cv2
@@ -184,4 +184,5 @@ plt.subplot(3, 3, 9), plt.imshow(imagem_gaussiano, cmap='gray'), plt.title("Ruí
 plt.tight_layout()
 plt.show()
 ![image](https://github.com/user-attachments/assets/c42cbe53-ee6c-4b41-bbae-dc15d20ec79f)
+$ Consideração
 Como da para ver, a transformação de wavelets ficou consideravelmente melhor do que a de Fourier, outra que o filtro de gaussiano continua dando esse erro estranho, não consegui arruma-lo
