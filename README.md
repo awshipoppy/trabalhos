@@ -1,5 +1,49 @@
 # Trabalhos
-Trabalhos para o dia 13/11
+Trabalhos para o dia 13/11, aqui estão as atividades de transformação de wavelets e ruido de sal e pimenta e o trabalho de arrumar uma imagem
+
+#Atividade da Transformação de wavelets
+
+import cv2
+import pywt
+import matplotlib.pyplot as plt
+
+# carregar imagem  e deixar em tons de cinza
+image = cv2.imread('castlevania.jpg', cv2.IMREAD_GRAYSCALE)
+
+# realizar a decomposição da imagem em wavelets
+coeffs2 = pywt.dwt2(image, 'haar')
+
+# LL: Aproximações - HL, LH, HH: detalhes
+LL, (LH, HL, HH) = coeffs2
+
+# Mostrar as imagens
+
+plt.figure(figsize=(10,10))
+plt.subplot(2, 2, 1)
+plt.imshow(image, cmap='gray')
+plt.title('Imagem original')
+plt.axis('off')
+
+plt.subplot(2, 2, 2)
+plt.imshow(LL, cmap='gray')
+plt.title('Aproximações')
+plt.axis('off')
+
+plt.subplot(2, 2, 3)
+plt.imshow(LH, cmap='gray')
+plt.title('Detalhes (LH)')
+plt.axis('off')
+
+plt.subplot(2, 2, 4)
+plt.imshow(HL, cmap='gray')
+plt.title('Detalhes (HL)')
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+![image](https://github.com/user-attachments/assets/018f086c-5326-4b82-a962-6672d4dede43)
+
 
 # Atividade de Ruido de Sal e Pimenta 
 
@@ -106,83 +150,173 @@ plt.show()
 
 
 # Projeto para Prova
-Apliquei todos os filtros, ruídos e transformações diferentes em uma imagem que encontrei na internet antiga para ver qual seria a melhor para fazer a limpeza dela, o código foi o seguinte
-
 import cv2
 import numpy as np
-import scipy.ndimage
 import matplotlib.pyplot as plt
+import pywt
 
-# Carrega a imagem
+# Carrega a imagem fornecida
 imagem = cv2.imread("familia.jpg", cv2.IMREAD_GRAYSCALE)
 
-# Função corrigida para adicionar ruído sal e pimenta
-def ruido_sal_pimenta(imagem, proporcao_sal=0.02, proporcao_pimenta=0.02):
-    imagem_ruidosa = np.copy(imagem)
-    num_sal = int(proporcao_sal * imagem.size)
-    num_pimenta = int(proporcao_pimenta * imagem.size)
+# Verifica se a imagem foi carregada corretamente
+if imagem is None:
+    print("Erro ao carregar a imagem. Verifique o caminho do arquivo.")
+else:
+    # Função para adicionar ruído sal e pimenta
+    def ruido_sal_pimenta(imagem, proporcao_sal=0.02, proporcao_pimenta=0.02):
+        imagem_ruidosa = np.copy(imagem)
+        num_sal = int(proporcao_sal * imagem.size)
+        num_pimenta = int(proporcao_pimenta * imagem.size)
 
-    # Aplica o ruído sal
-    coords_sal = [np.random.randint(0, i, num_sal) for i in imagem.shape]
-    imagem_ruidosa[coords_sal[0], coords_sal[1]] = 255
+        # Aplica o ruído sal
+        coords_sal = [np.random.randint(0, i - 1, num_sal) for i in imagem.shape]
+        imagem_ruidosa[coords_sal[0], coords_sal[1]] = 255
 
-    # Aplica o ruído pimenta
-    coords_pimenta = [np.random.randint(0, i, num_pimenta) for i in imagem.shape]
-    imagem_ruidosa[coords_pimenta[0], coords_pimenta[1]] = 0
+        # Aplica o ruído pimenta
+        coords_pimenta = [np.random.randint(0, i - 1, num_pimenta) for i in imagem.shape]
+        imagem_ruidosa[coords_pimenta[0], coords_pimenta[1]] = 0
 
-    return imagem_ruidosa
+        return imagem_ruidosa
 
-# Função corrigida para adicionar ruído Gaussiano
-def ruido_gaussiano(imagem, sigma=25):
-    ruido = np.random.normal(0, sigma, imagem.shape).astype(np.float32)
-    imagem_ruidosa = imagem.astype(np.float32) + ruido
-    imagem_ruidosa = np.clip(imagem_ruidosa, 0, 255).astype(np.uint8)
-    return imagem_ruidosa
+    # Função para adicionar ruído Gaussiano
+    def ruido_gaussiano(imagem, sigma=25):
+        ruido = np.random.normal(0, sigma, imagem.shape).astype(np.float32)
+        imagem_ruidosa = imagem.astype(np.float32) + ruido
+        imagem_ruidosa = np.clip(imagem_ruidosa, 0, 255).astype(np.uint8)
+        return imagem_ruidosa
+
+    imagem_modificada = imagem
+    resposta = ''
+    efeitos = ''
+    certo = False
+
+    # Aplica o ruído sal e pimenta
+    while certo == False:
+        resposta = input('\nAplicar Sal e Pimenta? [S] ou [N] = ')
+        if resposta == 'S':
+            imagem_modificada = ruido_sal_pimenta(imagem)
+            efeitos = efeitos + ' Sal e Pimenta '
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica o ruído Gaussiano
+    while certo == False:
+        resposta = input('\nAplicar ruído Gaussiano? [S] ou [N] = ')
+        if resposta == 'S':
+            imagem_modificada = ruido_gaussiano(imagem_modificada)
+            efeitos = efeitos + ' Ruído Gaussiano ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica o filtro de média
+    while certo == False:
+        resposta = input('\nAplicar filtro de Média? [S] ou [N] = ')
+        if resposta == 'S':
+            imagem_modificada = cv2.blur(imagem_modificada, (5, 5))
+            efeitos = efeitos + ' Média ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica o filtro de mediana
+    while certo == False:
+        resposta = input('\nAplicar filtro Mediana? [S] ou [N] = ')
+        if resposta == 'S':
+            imagem_modificada = cv2.medianBlur(imagem_modificada, 5)
+            efeitos = efeitos + ' Mediana ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica o filtro Gaussiano
+    while certo == False:
+        resposta = input('\nAplicar filtro Gaussiano? [S] ou [N] = ')
+        if resposta == 'S':
+            imagem_modificada = cv2.GaussianBlur(imagem_modificada, (5, 5), 1)
+            efeitos = efeitos + ' Filtro Gaussiano ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica o filtro de Sobel
+    while certo == False:
+        resposta = input('\nAplicar filtro Sobel? [S] ou [N] = ')
+        if resposta == 'S':
+            sobel_x = cv2.Sobel(imagem_modificada, cv2.CV_64F, 1, 0, ksize=5)
+            sobel_y = cv2.Sobel(imagem_modificada, cv2.CV_64F, 0, 1, ksize=5)
+            imagem_modificada = cv2.magnitude(sobel_x, sobel_y).astype(np.uint8)
+            efeitos = efeitos + ' Sobel ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica a Transformada de Fourier
+    while certo == False:
+        resposta = input('\nAplicar transformação de Fourier? [S] ou [N] = ')
+        if resposta == 'S':
+            f_transformada = np.fft.fft2(imagem_modificada)
+            f_transformada_centralizada = np.fft.fftshift(f_transformada)
+            imagem_modificada = np.log(1 + np.abs(f_transformada_centralizada))
+            efeitos = efeitos + ' Fourier ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    certo = False
+    # Aplica a Transformada Wavelet
+    while certo == False:
+        resposta = input('\nAplicar Transformaçãod de Wavelet? [S] ou [N] = ')
+        if resposta == 'S':
+            coeffs2 = pywt.dwt2(imagem_modificada, 'haar')
+            LL, (LH, HL, HH) = coeffs2
+            imagem_modificada = np.log(np.abs(LL) + 1)
+            efeitos = efeitos + ' Wavelets ' 
+            certo = True
+        elif resposta == 'N':
+            certo = True
+        else:
+            print('Resposta Inválida')
+
+    plt.figure(figsize=(12, 6))
+
+    # Imagem original
+    plt.subplot(1, 2, 1)
+    plt.imshow(imagem, cmap='gray')
+    plt.title("Imagem Original")
+    plt.axis('off')
+
+    # Imagem com todos os efeitos aplicados
+    plt.subplot(1, 2, 2)
+    plt.imshow(imagem_modificada, cmap='gray')
+    plt.title(f"Imagem com {efeitos}")
+    plt.axis('off')
+
+    plt.show()
+
+    
 
 
-# Aplica o filtro de média
-imagem_media = cv2.blur(imagem, (5, 5))
+    ![image](https://github.com/user-attachments/assets/96b9232d-c6fb-463e-a9f4-143cfe4528d6)
 
-# Aplica o filtro de mediana
-imagem_mediana = cv2.medianBlur(imagem, 5)
-
-# Aplica o filtro gaussiano
-imagem_gaussiana = cv2.GaussianBlur(imagem, (5, 5), 1)
-
-# Aplica o filtro de Sobel
-sobel_x = cv2.Sobel(imagem, cv2.CV_64F, 1, 0, ksize=5)
-sobel_y = cv2.Sobel(imagem, cv2.CV_64F, 0, 1, ksize=5)
-imagem_sobel = cv2.magnitude(sobel_x, sobel_y)
-
-# Transformada de Fourier
-f_transformada = np.fft.fft2(imagem)
-f_transformada_centralizada = np.fft.fftshift(f_transformada)
-espectro = np.log(1 + np.abs(f_transformada_centralizada))
-
-# Transformada Wavelet
-import pywt
-coeffs2 = pywt.dwt2(imagem, 'haar')
-LL, (LH, HL, HH) = coeffs2
-imagem_wavelet = np.log(np.abs(LL) + 1)
-
-# Adiciona ruídos
-imagem_sal_pimenta = ruido_sal_pimenta(imagem)
-imagem_gaussiano = ruido_gaussiano(imagem)
-
-# Exibe os resultados
-plt.figure(figsize=(12, 10))
-plt.subplot(3, 3, 1), plt.imshow(imagem, cmap='gray'), plt.title("Original")
-plt.subplot(3, 3, 2), plt.imshow(imagem_media, cmap='gray'), plt.title("Filtro de Média")
-plt.subplot(3, 3, 3), plt.imshow(imagem_mediana, cmap='gray'), plt.title("Filtro de Mediana")
-plt.subplot(3, 3, 4), plt.imshow(imagem_gaussiana, cmap='gray'), plt.title("Filtro Gaussiano")
-plt.subplot(3, 3, 5), plt.imshow(imagem_sobel, cmap='gray'), plt.title("Filtro de Sobel")
-plt.subplot(3, 3, 6), plt.imshow(espectro, cmap='gray'), plt.title("Transformada de Fourier")
-plt.subplot(3, 3, 7), plt.imshow(imagem_wavelet, cmap='gray'), plt.title("Transformada Wavelet")
-plt.subplot(3, 3, 8), plt.imshow(imagem_sal_pimenta, cmap='gray'), plt.title("Ruído Sal & Pimenta")
-plt.subplot(3, 3, 9), plt.imshow(imagem_gaussiano, cmap='gray'), plt.title("Ruído Gaussiano")
-
-plt.tight_layout()
-plt.show()
-![image](https://github.com/user-attachments/assets/c42cbe53-ee6c-4b41-bbae-dc15d20ec79f)
-$ Consideração
-Como da para ver, a transformação de wavelets ficou consideravelmente melhor do que a de Fourier, outra que o filtro de gaussiano continua dando esse erro estranho, não consegui arruma-lo
