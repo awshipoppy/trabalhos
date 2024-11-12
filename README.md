@@ -150,6 +150,8 @@ plt.show()
 
 
 # Projeto para Prova
+Código feito para que o próprio usuário edite a imagem de acordo com os filtros que queira, ajustando as melhores opções para sua imagem
+
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
