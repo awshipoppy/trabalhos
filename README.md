@@ -78,3 +78,6 @@ Acredito que a de Wavelets tenha mais funções para usos de imagens em geral do
 ![image](https://github.com/user-attachments/assets/2cac39ae-59a7-4553-90ef-4d73107f2ff3)
 
 ![image](https://github.com/user-attachments/assets/0a43da3d-c2b9-4889-a735-dd443b07accf)
+
+#### Código
+O código para ver a execução é 'projeto_cheio.py'
