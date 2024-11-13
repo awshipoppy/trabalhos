@@ -11,7 +11,7 @@ A atividade de transformação de wavelets, ela foi usando as aproximações e o
 Alguns usos melhores seriam usar em uma girafa, onde suas cores amarelas e pretas seriam saltadas.
 
 #### Código
-O código para ver a execução é 'sal_pimenta.py'
+O código para ver a execução é 'Wavelets.py'
 
 ## Atividade de Ruidos 
 Outra atividade que fizemos foi em relação aos ruidos que podem ser aplicados na imagem para depois serem tratados, uma estrátegia para entender algo melhor, estudamos dois ruídos sendo eles:
@@ -28,8 +28,35 @@ O ruido gaussiano funciona de maneira pouco similar ao filtro gaussiano, porém 
 
 As imagens após serem aplicadas com os ruidos e serem aplicadas os filtros para tentar melhorar a qualidade
 
+#### Código
+O código para ver a execução é 'sal_pimenta.py'
+
 # Projeto para Prova
-Código feito para que o próprio usuário edite a imagem de acordo com os filtros que queira, ajustando as melhores opções para sua imagem
+Pelo que foi proposto, era para nós usarmos tudo que aprendemos durante o semestre sobre filtros, ruídos e transformações para selecionar uma imagem e tentar melhorara o máximo possível
+
+# O que aprendemos?
+De maneira resumida, nós aprendemos os seguintes tópicos
+
+### Ruído Sal e Pimenta
+Um tipo de ruído onde pixels aleatórios são definidos para valores máximos (sal, ou branco) ou mínimos (pimenta, ou preto). Ele cria pontos brancos e pretos dispersos pela imagem e é frequentemente causado por falhas na captura ou transmissão de dados.
+### Ruído Gaussiano
+Um ruído que segue uma distribuição normal (gaussiana) e afeta o valor de intensidade dos pixels de maneira aleatória. É frequentemente usado para simular variações aleatórias em sensores e dispositivos de captura.
+### Filtro Gaussiano
+É um filtro de suavização que usa uma função gaussiana para suavizar ou desfocar uma imagem. O filtro gaussiano aplica uma "média ponderada" nos pixels próximos, dando mais peso aos pixels mais próximos do ponto central. É muito útil para reduzir ruídos, especialmente o ruído gaussiano.
+### Filtro de Média
+Este filtro calcula a média dos valores de intensidade dos pixels vizinhos e substitui o valor do pixel central por essa média. É um método simples de suavização, porém pode desfocar detalhes importantes da imagem.
+### Filtro de Mediana
+Este filtro substitui o valor de um pixel pelo valor mediano dos pixels em sua vizinhança. É eficaz para remover ruído "sal e pimenta", pois preserva bordas e evita a criação de novos valores extremos.
+### Filtro Sobel
+Um filtro de detecção de bordas que calcula gradientes de intensidade em uma imagem, destacando áreas onde há grandes mudanças, como bordas. Ele usa máscaras horizontais e verticais para identificar essas transições.
+### Transformada de Fourier
+Uma técnica matemática que decompõe uma imagem (ou sinal) em suas frequências constituintes. No contexto de imagens, ajuda a identificar padrões e remover ruídos de alta frequência (ruído granular) ou destacar frequências específicas.
+### Transformada Wavelet
+Uma técnica de decomposição que representa uma imagem ou sinal em diferentes escalas, capturando tanto informações de frequência quanto de localização. É útil para compressão e remoção de ruído em imagens e sinais, pois permite focar em detalhes específicos.
+
+# O que eu fiz?
+Baseado em todos esses elementos, ao invés de fazer um código unico para melhorar apenas uma imagem, eu fiz com que o próprio usuário adicionasse os efeitos que gostaria a sua imagem para a visualização no final,
+podendo escolher combinações diferentes baseadas nos ruídos, filtros e transformações existentes no código, onde ele teria apenas que mudar uma linha do código, que é o nome da imagem que está selecionado
 
 import cv2
 import numpy as np
