@@ -2,49 +2,13 @@
 Trabalhos para o dia 13/11, aqui estão as atividades de transformação de wavelets e ruido de sal e pimenta e o trabalho de arrumar uma imagem
 
 #Atividade da Transformação de wavelets
+A atividade de transformação de wavelets, ela foi usando as aproximações e os detalhes mostrados em uma imagem de um jogo conhecido como Castlevania "Simphony of the Night", mostrando versões onde a imagem está sendo puxada e empurrada
 
-import cv2
-import pywt
-import matplotlib.pyplot as plt
-
-# carregar imagem  e deixar em tons de cinza
-image = cv2.imread('castlevania.jpg', cv2.IMREAD_GRAYSCALE)
-
-# realizar a decomposição da imagem em wavelets
-coeffs2 = pywt.dwt2(image, 'haar')
-
-# LL: Aproximações - HL, LH, HH: detalhes
-LL, (LH, HL, HH) = coeffs2
-
-# Mostrar as imagens
-
-plt.figure(figsize=(10,10))
-plt.subplot(2, 2, 1)
-plt.imshow(image, cmap='gray')
-plt.title('Imagem original')
-plt.axis('off')
-
-plt.subplot(2, 2, 2)
-plt.imshow(LL, cmap='gray')
-plt.title('Aproximações')
-plt.axis('off')
-
-plt.subplot(2, 2, 3)
-plt.imshow(LH, cmap='gray')
-plt.title('Detalhes (LH)')
-plt.axis('off')
-
-plt.subplot(2, 2, 4)
-plt.imshow(HL, cmap='gray')
-plt.title('Detalhes (HL)')
-plt.axis('off')
-
-plt.tight_layout()
-plt.show()
+#Exemplo:
 
 ![image](https://github.com/user-attachments/assets/018f086c-5326-4b82-a962-6672d4dede43)
 
-
+Alguns usos melhores seriam usar em uma girafa, onde suas cores amarelas e pretas seriam saltadas
 # Atividade de Ruido de Sal e Pimenta 
 
 import random
