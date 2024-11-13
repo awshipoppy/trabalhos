@@ -1,14 +1,15 @@
 # Trabalhos
 Trabalhos para o dia 13/11, aqui estão as atividades de transformação de wavelets e ruido de sal e pimenta e o trabalho de arrumar uma imagem
 
-#Atividade da Transformação de wavelets
+## Atividade da Transformação de wavelets
 A atividade de transformação de wavelets, ela foi usando as aproximações e os detalhes mostrados em uma imagem de um jogo conhecido como Castlevania "Simphony of the Night", mostrando versões onde a imagem está sendo puxada e empurrada
 
-# Exemplo:
+### Exemplo:
 
 ![image](https://github.com/user-attachments/assets/018f086c-5326-4b82-a962-6672d4dede43)
 
-Alguns usos melhores seriam usar em uma girafa, onde suas cores amarelas e pretas seriam saltadas
+Alguns usos melhores seriam usar em uma girafa, onde suas cores amarelas e pretas seriam saltadas.
+O código para ver a execução é 'sal_pimenta.py'
 # Atividade de Ruido de Sal e Pimenta 
 
 import random
